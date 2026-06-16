@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
+
 from app.api import auth, properties, tenants, agreements, payments
 
 app = FastAPI()
 
-
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -13,13 +17,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router, prefix="/auth", tags=["Auth"])
-app.include_router(properties.router, prefix="/properties", tags=["Properties"])
-app.include_router(tenants.router, prefix="/tenants", tags=["Tenants"])
-app.include_router(agreements.router, prefix="/agreements", tags=["Agreements"])
-app.include_router(payments.router, prefix="/payments", tags=["Payments"])
+# Serve static files
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-
+# Serve index.html at root
 @app.get("/")
-def home():
-    return {"message": "Property Rental API Running"}
+def serve_index():
+    return FileResponse(os.path.join("app/static", "index.html"))
+
+# API routes
+app.include_router(auth.router, prefix="/auth")
+app.include_router(properties.router, prefix="/properties")
+app.include_router(tenants.router, prefix="/tenants")
+app.include_router(agreements.router, prefix="/agreements")
+app.include_router(payments.router, prefix="/payments")
