@@ -26,4 +26,16 @@ A full-stack Property Rental Management System built using **FastAPI**, **JWT Au
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
+property-rental-system/
+│
+├── backend/
+│ ├── app/
+│ │ ├── api/
+│ │ ├── services/
+│ │ ├── schemas/
+│ │ ├── core/
+│ │ ├── main.py
+│
+├── frontend/
+├── README.md
