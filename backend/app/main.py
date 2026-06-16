@@ -4,7 +4,7 @@ from app.api import auth, properties, tenants, agreements, payments
 
 app = FastAPI()
 
-# Enable CORS for local static file loading and development origins
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
