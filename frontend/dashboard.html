@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentManager | Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js CDN for modern statistics charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div id="loader-overlay" class="loader-overlay d-none">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Alert Notifications container -->
+    <div id="notification-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999; width: 320px;"></div>
+
+    <div class="app-container">
+        <!-- ==================== LEFT SIDEBAR ==================== -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-header">
+                    <span class="logo-icon">
+                        <!-- Building Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 26px; height: 26px; fill: url(#blue-grad); filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));">
+                            <defs>
+                                <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#60a5fa" />
+                                    <stop offset="100%" stop-color="#2563eb" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M19 2H9c-1.1 0-2 .9-2 2v3H3c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM5 20H3V9h2v11zm6 0H7v-3h4v3zm0-5H7v-3h4v3zm0-5H7V7h4v3zm8 10h-6v-3h2v-2h-2v-2h2v-2h-2V7h6v13zm-2-9h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+                        </svg>
+                    </span>
+                    <h2>Rent<span class="logo-highlight">Manager</span></h2>
+                </div>
+                <p class="logo-sub">Property Rental System</p>
+            </div>
+
+            <!-- Profile Widget Card -->
+            <div class="user-card">
+                <div class="user-card-inner">
+                    <div class="user-avatar" id="user-avatar-initials">A</div>
+                    <div class="user-details">
+                        <span class="user-name">Administrator</span>
+                        <span class="user-role" id="user-role-email">admin@gmail.com</span>
+                    </div>
+                </div>
+                <span class="user-card-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </span>
+            </div>
+
+            <!-- Sidebar Navigation Links -->
+            <nav class="nav-menu">
+                <li class="nav-item active"><a href="dashboard.html">
+                    <div class="nav-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <span>Dashboard</span>
+                </a></li>
+                <li class="nav-item"><a href="properties.html">
+                    <div class="nav-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <span>Properties</span>
+                </a></li>
+                <li class="nav-item"><a href="tenants.html">
+                    <div class="nav-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <span>Tenants</span>
+                </a></li>
+                <li class="nav-item"><a href="agreements.html">
+                    <div class="nav-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                    </div>
+                    <span>Agreements</span>
+                </a></li>
+                <li class="nav-item"><a href="payments.html">
+                    <div class="nav-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <span>Payments</span>
+                </a></li>
+                <li class="nav-item"><a href="#" onclick="showNotification('Reports dashboard is coming soon.', 'info')">
+                    <div class="nav-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                    </div>
+                    <span>Reports</span>
+                </a></li>
+                <li class="nav-item"><a href="#" onclick="showNotification('System settings is coming soon.', 'info')">
+                    <div class="nav-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                    <span>Settings</span>
+                </a></li>
+            </nav>
+
+            <button id="btn-logout" class="logout-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Sign Out</span>
+            </button>
+        </aside>
+
+        <!-- ==================== MAIN CONTENT SECTION ==================== -->
+        <div class="main-content">
+            <!-- Top Header Navbar -->
+            <header class="top-navbar">
+                <div class="navbar-title">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back, Administrator! Here's what's happening with your properties.</p>
+                </div>
+                <div class="navbar-actions">
+                    <!-- Search Bar -->
+                    <div class="navbar-search">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        <input type="text" id="global-search" placeholder="Search anything...">
+                    </div>
+                    <!-- Notification bell -->
+                    <div class="navbar-bell" onclick="showNotification('You have 3 unread tenant notifications.', 'info')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                        </svg>
+                        <span class="bell-badge">3</span>
+                    </div>
+                    <!-- Profile avatar -->
+                    <div class="navbar-avatar"></div>
+                </div>
+            </header>
+
+            <!-- Scrollable View Content -->
+            <main class="view-body">
+                <!-- METRIC STATS CARDS (TOP ROW) -->
+                <div class="metrics-grid">
+                    <!-- Card 1 -->
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <div class="metric-icon icon-blue">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="9" y1="3" x2="9" y2="21"></line>
+                                    <line x1="15" y1="3" x2="15" y2="21"></line>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="3" y1="15" x2="21" y2="15"></line>
+                                </svg>
+                            </div>
+                            <div class="metric-label-val">
+                                <span class="metric-title">Total Properties</span>
+                                <span id="metric-properties" class="metric-value">10</span>
+                            </div>
+                        </div>
+                        <div class="metric-bottom-row">
+                            <span class="metric-trend trend-up">
+                                +12% <span class="metric-trend-label">from last month</span>
+                            </span>
+                            <div class="sparkline-container">
+                                <svg class="sparkline spark-blue" viewBox="0 0 100 30">
+                                    <path d="M0,25 L15,22 L30,12 L45,18 L60,8 L75,14 L90,4 L100,8" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <div class="metric-icon icon-green">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <div class="metric-label-val">
+                                <span class="metric-title">Total Tenants</span>
+                                <span id="metric-tenants" class="metric-value">10</span>
+                            </div>
+                        </div>
+                        <div class="metric-bottom-row">
+                            <span class="metric-trend trend-up">
+                                +8% <span class="metric-trend-label">from last month</span>
+                            </span>
+                            <div class="sparkline-container">
+                                <svg class="sparkline spark-green" viewBox="0 0 100 30">
+                                    <path d="M0,25 L20,20 L40,23 L60,10 L80,14 L100,5" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <div class="metric-icon icon-purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                            </div>
+                            <div class="metric-label-val">
+                                <span class="metric-title">Paid Payments</span>
+                                <span id="metric-paid" class="metric-value">3</span>
+                            </div>
+                        </div>
+                        <div class="metric-bottom-row">
+                            <span class="metric-trend trend-up">
+                                +15% <span class="metric-trend-label">from last month</span>
+                            </span>
+                            <div class="sparkline-container">
+                                <svg class="sparkline spark-purple" viewBox="0 0 100 30">
+                                    <path d="M0,25 L20,22 L40,14 L60,18 L80,6 L100,10" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="metric-card">
+                        <div class="metric-top-row">
+                            <div class="metric-icon icon-orange">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <div class="metric-label-val">
+                                <span class="metric-title">Pending Payments</span>
+                                <span id="metric-pending" class="metric-value">2</span>
+                            </div>
+                        </div>
+                        <div class="metric-bottom-row">
+                            <span class="metric-trend trend-down">
+                                -5% <span class="metric-trend-label">from last month</span>
+                            </span>
+                            <div class="sparkline-container">
+                                <svg class="sparkline spark-orange" viewBox="0 0 100 30">
+                                    <path d="M0,18 L20,15 L40,22 L60,16 L80,10 L100,14" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHARTS GRIDS -->
+                <div class="charts-grid">
+                    <!-- Left Doughnut Chart Card -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title-wrapper">
+                                <span class="chart-title-icon">🔵</span>
+                                <h3>Financial Status Overview</h3>
+                            </div>
+                            <select class="chart-dropdown-select">
+                                <option>This Month</option>
+                                <option>Last Month</option>
+                            </select>
+                        </div>
+                        <div class="chart-inner-row">
+                            <div class="chart-container-donut">
+                                <canvas id="chart-payments"></canvas>
+                                <div class="donut-center-text">
+                                    <span class="donut-center-label">Total</span>
+                                    <span id="donut-total-val" class="donut-center-val">5</span>
+                                </div>
+                            </div>
+                            <div class="chart-legends-donut">
+                                <div class="legend-item-row">
+                                    <div class="legend-label-col">
+                                        <span class="legend-dot dot-paid"></span>
+                                        <span>Paid</span>
+                                    </div>
+                                    <div class="legend-val-col">
+                                        <span class="legend-number" id="legend-paid-num">3</span>
+                                        <span class="legend-percentage" id="legend-paid-pct">60%</span>
+                                    </div>
+                                </div>
+                                <div class="legend-item-row">
+                                    <div class="legend-label-col">
+                                        <span class="legend-dot dot-pending"></span>
+                                        <span>Pending</span>
+                                    </div>
+                                    <div class="legend-val-col">
+                                        <span class="legend-number" id="legend-pending-num">2</span>
+                                        <span class="legend-percentage" id="legend-pending-pct">40%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Bar Chart Card -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title-wrapper">
+                                <span class="chart-title-icon">📊</span>
+                                <h3>Property Distribution by City</h3>
+                            </div>
+                            <select class="chart-dropdown-select">
+                                <option>This Month</option>
+                                <option>Last Month</option>
+                            </select>
+                        </div>
+                        <div class="chart-container-bar">
+                            <canvas id="chart-properties"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLES SECTION (RECENT DATA) -->
+                <div class="tables-grid">
+                    <!-- Left: Recent Properties -->
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <div class="table-card-title-wrapper">
+                                <span class="table-card-title-icon">🏠</span>
+                                <h3>Recent Properties</h3>
+                            </div>
+                            <a href="properties.html" class="table-card-btn">View All</a>
+                        </div>
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Property Name</th>
+                                    <th>Location</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-properties-tbody">
+                                <!-- Placeholders for immediate render -->
+                                <tr>
+                                    <td>
+                                        <div class="property-cell">
+                                            <div class="property-thumb">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                                            </div>
+                                            <span class="property-name-title">2BHK Apartment</span>
+                                        </div>
+                                    </td>
+                                    <td>Pune</td>
+                                    <td>₹ 25,000</td>
+                                    <td><span class="status-badge status-rented">Rented</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="property-cell">
+                                            <div class="property-thumb">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                                            </div>
+                                            <span class="property-name-title">1BHK Studio</span>
+                                        </div>
+                                    </td>
+                                    <td>Mumbai</td>
+                                    <td>₹ 18,000</td>
+                                    <td><span class="status-badge status-available">Available</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="property-cell">
+                                            <div class="property-thumb">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                                            </div>
+                                            <span class="property-name-title">3BHK Villa</span>
+                                        </div>
+                                    </td>
+                                    <td>Bangalore</td>
+                                    <td>₹ 45,000</td>
+                                    <td><span class="status-badge status-rented">Rented</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Right: Recent Payments -->
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <div class="table-card-title-wrapper">
+                                <span class="table-card-title-icon">💵</span>
+                                <h3>Recent Payments</h3>
+                            </div>
+                            <a href="payments.html" class="table-card-btn">View All</a>
+                        </div>
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Tenant Name</th>
+                                    <th>Property</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-payments-tbody">
+                                <!-- Placeholders for immediate render -->
+                                <tr class="tr-paid">
+                                    <td>
+                                        <div class="tenant-cell">
+                                            <span class="tenant-avatar-circle circle-r">R</span>
+                                            <span class="tenant-name-title">Rohan Mehta</span>
+                                        </div>
+                                    </td>
+                                    <td>2BHK Apartment</td>
+                                    <td>₹ 25,000</td>
+                                    <td><span class="status-badge status-paid">Paid</span></td>
+                                </tr>
+                                <tr class="tr-pending">
+                                    <td>
+                                        <div class="tenant-cell">
+                                            <span class="tenant-avatar-circle circle-s">S</span>
+                                            <span class="tenant-name-title">Sneha Patil</span>
+                                        </div>
+                                    </td>
+                                    <td>1BHK Studio</td>
+                                    <td>₹ 18,000</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                </tr>
+                                <tr class="tr-paid">
+                                    <td>
+                                        <div class="tenant-cell">
+                                            <span class="tenant-avatar-circle circle-a">A</span>
+                                            <span class="tenant-name-title">Amit Sharma</span>
+                                        </div>
+                                    </td>
+                                    <td>3BHK Villa</td>
+                                    <td>₹ 45,000</td>
+                                    <td><span class="status-badge status-paid">Paid</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
